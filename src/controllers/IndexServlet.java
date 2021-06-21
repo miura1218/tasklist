@@ -52,6 +52,11 @@ public class IndexServlet extends HttpServlet {
         em.close();
 
         request.setAttribute("messages", messages);
+        if(request.getSession().getAttribute("flush") != null) {
+            // セッションスコープ内のフラッシュメッセージをリクエストスコープに保存し、セッションスコープからは削除する
+            request.setAttribute("flush", request.getSession().getAttribute("flush"));
+            request.getSession().removeAttribute("flush");
+        }
         request.setAttribute("messages_count", messages_count);     // 全件数
         request.setAttribute("page", page);
 
